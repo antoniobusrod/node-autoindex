@@ -1,0 +1,53 @@
+#!/usr/bin/env node --harmony
+
+var path = require('path');
+var program = require('commander');
+var autoindex = require('../server');
+
+program
+  .description('Basic index of a directory, as Apache\'s mod_autoindex')
+  .version('0.0.1')
+  .usage('[options] dir')
+  .option('--port <port>', 'custom port')
+  .option('--httpsPort <httpsPort>', 'custom https port')
+  .option('--allow <ip1,ip2>', 'list of allowed IPs')
+  .option('--filter <ext1,ext2>', 'filter files by extensions by ","')
+  .option('--auth <username:password>', 'HTTP Basic Authentication by "username:password')
+  .option('--cert <cert>', 'https server cert file path')
+  .option('--key <key>', 'https server key file path');
+
+program.parse(process.argv);
+
+if (program.auth) {
+  program.auth = program.auth.split(':');
+  if (program.auth.length !== 2) {
+    program.auth = null;
+  } else {
+    program.auth = {
+      username: program.auth[0],
+      password: program.auth[1]
+    };
+  }
+}
+
+autoindex({
+  dir: program.args[0] || process.cwd(),
+  httpPort: program.port,
+  httpsPort: program.httpsPort,
+  key: getAbsolutePath(program.key),
+  cert: getAbsolutePath(program.cert),
+  allowed: program.allow ? program.allow.split(',') : null,
+  filter: program.filter ? program.filter.split(',') : null,
+  auth: program.auth,
+});
+
+function getAbsolutePath(dir) {
+  if (!dir) {
+    return;
+  }
+  if (path.isAbsolute(dir)) {
+    return dir;
+  }
+  return path.join(process.cwd(), dir);
+}
+

@@ -1,0 +1,26 @@
+{
+  "name": "node-autoindex",
+  "description": " Basic autoindex web server (https) with Node.js",
+  "version": "1.0.0",
+  "author": "Antonio Bustos <antonio@busrod.net>",
+  "bin": {
+    "node-autoindex": "./bin/node-autoindex"
+  },
+  "main": "./app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antoniobusrod/node-autoindex.git"
+  },
+  "dependencies": {
+    "commander": "^2.6.0",
+    "ipaddr.js": "^0.1.8",
+    "koa": "^0.18.1",
+    "koa-logger": "^1.2.2",
+    "koa-passport": "^1.1.6",
+    "koa-serve-index": "^1.0.1",
+    "koa-session": "^3.3.1",
+    "koa-static": "^1.4.9",
+    "passport-http": "^0.3.0"
+  },
+  "license": "MIT"
+}
