@@ -12,6 +12,7 @@ program
   .option('--httpsPort <httpsPort>', 'custom https port')
   .option('--allow <ip1,ip2>', 'list of allowed IPs')
   .option('--filter <ext1,ext2>', 'filter files by extensions by ","')
+  .option('--by-date <revert>', 'sort files by date (revert order)')
   .option('--auth <username:password>', 'HTTP Basic Authentication by "username:password')
   .option('--cert <cert>', 'https server cert file path')
   .option('--key <key>', 'https server key file path');
@@ -38,6 +39,7 @@ autoindex({
   cert: getAbsolutePath(program.cert),
   allowed: program.allow ? program.allow.split(',') : null,
   filter: program.filter ? program.filter.split(',') : null,
+  byDate: (program.byDate === 'true'),
   auth: program.auth,
 });
 
