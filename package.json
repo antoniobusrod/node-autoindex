@@ -17,7 +17,7 @@
     "koa": "^0.18.1",
     "koa-logger": "^1.2.2",
     "koa-passport": "^1.1.6",
-    "koa-serve-index": "^1.0.1",
+    "koa-serve-index": "antoniobusrod/koa-serve-index#set-sort-option",
     "koa-session": "^3.3.1",
     "koa-static": "^1.4.9",
     "passport-http": "^0.3.0"
