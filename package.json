@@ -1,6 +1,6 @@
 {
   "name": "node-autoindex",
-  "description": " Basic autoindex web server (https) with Node.js",
+  "description": "Basic autoindex web server (https) with Node.js",
   "version": "1.0.0",
   "author": "Antonio Bustos <antonio@busrod.net>",
   "bin": {

@@ -1,55 +1,56 @@
 #!/usr/bin/env node
 
-var path = require('path');
-var program = require('commander');
-var autoindex = require('../server');
+const path = require('path')
+const program = require('commander')
+const autoindex = require('../server')
+
+function getAbsolutePath(dir) {
+  if (!dir || path.isAbsolute(dir)) {
+    return dir
+  }
+  return path.join(process.cwd(), dir)
+}
 
 program
   .description('Basic index of a directory, as Apache\'s mod_autoindex')
   .version('0.0.1')
   .usage('[options] dir')
-  .option('--port <port>', 'custom port')
+  .option('-p, --port <port>', 'custom port')
   .option('--httpsPort <httpsPort>', 'custom https port')
   .option('--allow <ip1,ip2>', 'list of allowed IPs')
-  .option('--filter <ext1,ext2>', 'filter files by extensions by ","')
-  .option('--by-date <revert>', 'sort files by date (revert order)')
-  .option('--auth <username:password>', 'HTTP Basic Authentication by "username:password')
-  .option('--cert <cert>', 'https server cert file path')
-  .option('--key <key>', 'https server key file path');
+  .option('-e, --filter-extension <ext1,ext2>', 'filter files by extensions by ","')
+  .option('-d, --filter-days <days>', 'filter files in days range')
+  .option('-s, --by-date <revert>', 'sort files by date (revert order)')
+  .option('-a, --auth <username:password>', 'HTTP Basic Authentication by "username:password')
+  .option('-c, --cert <cert>', 'https server cert file path')
+  .option('-k, --key <key>', 'https server key file path')
 
-program.parse(process.argv);
+program.parse(process.argv)
 
 if (program.auth) {
-  program.auth = program.auth.split(':');
+  program.auth = program.auth.split(':')
   if (program.auth.length !== 2) {
-    program.auth = null;
+    program.auth = null
   } else {
     program.auth = {
       username: program.auth[0],
       password: program.auth[1]
-    };
+    }
   }
 }
 
-autoindex({
+const config = {
   dir: program.args[0] || process.cwd(),
   httpPort: program.port,
   httpsPort: program.httpsPort,
   key: getAbsolutePath(program.key),
   cert: getAbsolutePath(program.cert),
   allowed: program.allow ? program.allow.split(',') : null,
-  filter: program.filter ? program.filter.split(',') : null,
+  filterExtension: program.filterExtension ? program.filterExtension.split(',') : null,
+  filterDays: program.filterDays,
   byDate: (program.byDate === 'true'),
   auth: program.auth,
-});
-
-function getAbsolutePath(dir) {
-  if (!dir) {
-    return;
-  }
-  if (path.isAbsolute(dir)) {
-    return dir;
-  }
-  return path.join(process.cwd(), dir);
 }
+
+autoindex(config)
 
