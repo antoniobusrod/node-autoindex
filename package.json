@@ -11,6 +11,9 @@
     "type": "git",
     "url": "https://github.com/antoniobusrod/node-autoindex.git"
   },
+  "engines": {
+    "node": ">4"
+  },
   "dependencies": {
     "commander": "^2.6.0",
     "ipaddr.js": "^0.1.8",
