@@ -11,11 +11,13 @@ const defaults = {
   httpsPort: 8443,
   key: path.join(__dirname, 'data', 'key'),
   cert: path.join(__dirname, 'data', 'cacert.pem'),
+  processTitle: 'node-autoindex'
 }
 
 function server(config) {
   let httpsOptions = null
   setDefaults(config, defaults)
+  process.title = config.processTitle;
   try {
     httpsOptions = {
       key: fs.readFileSync(config.key, 'utf-8'),
